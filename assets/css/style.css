@@ -1,0 +1,571 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #5a4a42;
+    background: linear-gradient(135deg, #fff9f5 0%, #fff5f0 100%);
+    min-height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Подключаем красивый шрифт */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Анимация для появления элементов */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px rgba(183, 110, 121, 0.3);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(183, 110, 121, 0.6);
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Шапка - нежно-розовый */
+header {
+    background: rgba(183, 110, 121, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(135deg, #fff5f0, #ffe8e0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #ffffff, #ffe8e0);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+nav a {
+    margin-left: 25px;
+    text-decoration: none;
+    color: #fff5f0;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #fff5f0, #ffe8e0);
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+nav a:hover {
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* Кнопки с эффектами */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #b76e79, #d89aa4);
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(183, 110, 121, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(183, 110, 121, 0.4);
+}
+
+.btn-small {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    background: linear-gradient(135deg, #dc3545, #e04e5e);
+    margin-left: 10px;
+}
+
+.btn-small:hover {
+    background: linear-gradient(135deg, #c82333, #d63e4e);
+}
+
+/* Главный баннер */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                url('/beauty-salon/assets/images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    border-radius: 20px;
+    padding: 150px 20px;
+    text-align: center;
+    margin-bottom: 50px;
+    color: white;
+    animation: none;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    font-family: 'Playfair Display', serif;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+}
+
+/* Блок "О нас" с узорной рамкой */
+.about-section {
+    text-align: center;
+    margin: 60px 0;
+    padding: 50px 40px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 245, 240, 0.95));
+    border-radius: 30px;
+    position: relative;
+    border: 2px solid #f5c6cb;
+    box-shadow: 0 15px 35px rgba(183, 110, 121, 0.1);
+}
+
+.about-section::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 2px dashed #d89aa4;
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.about-section::after {
+    content: '🌸';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #b76e79;
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.about-section h2 {
+    font-size: 2.5rem;
+    color: #b76e79;
+    margin-bottom: 20px;
+    font-family: 'Playfair Display', serif;
+}
+
+.about-section p {
+    max-width: 800px;
+    margin: 20px auto;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #7a6a62;
+}
+
+/* Карточки услуг */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.service-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease;
+    animation-fill-mode: both;
+    border: 1px solid #f5e6e0;
+}
+
+.service-card:nth-child(1) { animation-delay: 0.1s; }
+.service-card:nth-child(2) { animation-delay: 0.2s; }
+.service-card:nth-child(3) { animation-delay: 0.3s; }
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(183, 110, 121, 0.1), transparent);
+    transition: left 0.6s;
+}
+
+.service-card:hover::before {
+    left: 100%;
+}
+
+.service-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.service-card h3 {
+    color: #b76e79;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.service-card .price {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #8b6b63;
+    margin: 20px 0;
+}
+
+/* Карточка подарка */
+.gift-card {
+    background: linear-gradient(135deg, #fff0e8, #ffe8e0);
+    border-radius: 20px;
+    padding: 40px;
+    margin: 50px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: float 3s ease-in-out infinite;
+    border: 1px solid #f5c6cb;
+}
+
+.gift-card::before {
+    content: '🎁';
+    font-size: 100px;
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    opacity: 0.2;
+    transform: rotate(-15deg);
+}
+
+.gift-card h2 {
+    font-size: 2rem;
+    color: #b76e79;
+    margin-bottom: 20px;
+    font-family: 'Playfair Display', serif;
+}
+
+.gift-card .price {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #d4af37;
+    margin: 20px 0;
+}
+
+.gift-card .old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 1.2rem;
+    margin-right: 15px;
+}
+
+.gift-card .discount {
+    display: inline-block;
+    background: #ff6b6b;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* Мастера */
+.masters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.master-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+    border: 1px solid #f5e6e0;
+}
+
+.master-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.master-photo {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.master-card:hover .master-photo {
+    transform: scale(1.05);
+}
+
+.master-card h3 {
+    margin: 20px 0 10px;
+    color: #b76e79;
+    font-family: 'Playfair Display', serif;
+}
+
+.master-card p {
+    color: #8b6b63;
+    padding: 0 20px 20px;
+}
+
+/* Галерея работ с рамками */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin: 40px 0;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 3px solid #f5c6cb;
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+    border-color: #b76e79;
+    transform: scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover .gallery-img {
+    transform: scale(1.1);
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(transparent, rgba(183, 110, 121, 0.9));
+    color: white;
+    padding: 20px;
+    transition: bottom 0.3s ease;
+    font-weight: 500;
+}
+
+.gallery-item:hover .gallery-overlay {
+    bottom: 0;
+}
+
+/* Формы */
+.form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f5c6cb;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #b76e79;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #f5e6e0;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #b76e79;
+    box-shadow: 0 0 0 3px rgba(183, 110, 121, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Сообщения */
+.message {
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    animation: fadeInUp 0.3s ease;
+}
+
+.message.success {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+.message.error {
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+/* Таблицы */
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f5e6e0;
+}
+
+th {
+    background: linear-gradient(135deg, #fef5f0, #fff0e8);
+    font-weight: 600;
+    color: #b76e79;
+}
+
+tr:hover {
+    background-color: #fffaf5;
+    transition: background 0.3s ease;
+}
+
+/* Подвал - нежно-розовый */
+footer {
+    background: linear-gradient(135deg, #b76e79, #9e5a64);
+    color: #fff5f0;
+    text-align: center;
+    padding: 40px 0;
+    margin-top: 60px;
+}
