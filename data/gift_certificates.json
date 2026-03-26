@@ -1,0 +1,26 @@
+[
+    {
+        "id": "1774530914463",
+        "client_name": "Иванова Дарья Витальевна",
+        "client_phone": "89635742255",
+        "amount": 3000,
+        "status": "activated",
+        "activated_at": "2026-03-26 14:15:14"
+    },
+    {
+        "id": "1774533526147",
+        "client_name": "Петрова Кристина Владимировна",
+        "client_phone": "89833535535",
+        "amount": 5000,
+        "status": "activated",
+        "activated_at": "2026-03-26 14:58:46"
+    },
+    {
+        "id": "1774533930827",
+        "client_name": "Соловьева Жанна Анатольевна",
+        "client_phone": "89833535683",
+        "amount": 3000,
+        "status": "activated",
+        "activated_at": "2026-03-26 15:05:30"
+    }
+]

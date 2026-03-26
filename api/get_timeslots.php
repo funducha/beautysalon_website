@@ -2,15 +2,37 @@
 // Заголовок, что возвращаем JSON
 header('Content-Type: application/json');
 
-// Простая заглушка. В реальности нужно читать appointments.json и вычислять свободные слоты.
+// Базовые временные слоты
 $allTimes = ['10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '18:00'];
-// Для простоты вернем все, кроме одного "занятого"
-$times = $allTimes;
-if (isset($_GET['date']) && $_GET['date'] === date('Y-m-d')) {
-    // На сегодня сделаем вид, что 12:00 занято
-    $times = array_diff($allTimes, ['12:00']);
-    $times = array_values($times);
+
+// Получаем параметры
+$service_id = isset($_GET['service_id']) ? (int)$_GET['service_id'] : 0;
+$date = isset($_GET['date']) ? $_GET['date'] : '';
+
+// Если дата не указана, возвращаем все слоты
+if (empty($date)) {
+    echo json_encode(['times' => $allTimes]);
+    exit;
 }
 
-echo json_encode(['times' => $times]);
+// Проверяем занятые слоты из appointments.json
+$appointmentsFile = '../data/appointments.json';
+$bookedTimes = [];
+
+if (file_exists($appointmentsFile)) {
+    $appointments = json_decode(file_get_contents($appointmentsFile), true);
+    if (is_array($appointments)) {
+        foreach ($appointments as $app) {
+            if ($app['date'] == $date && $app['service_id'] == $service_id) {
+                $bookedTimes[] = $app['time'];
+            }
+        }
+    }
+}
+
+// Фильтруем свободные слоты
+$freeTimes = array_diff($allTimes, $bookedTimes);
+$freeTimes = array_values($freeTimes);
+
+echo json_encode(['times' => $freeTimes]);
 ?>

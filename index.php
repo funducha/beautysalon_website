@@ -56,8 +56,7 @@ if (file_exists('data/services.json')) {
             <span class="discount">-30%</span>
         </div>
         <p style="margin: 20px 0;">✨ Действует 6 месяцев ✨</p>
-        <button class="btn" onclick="activateGift()">Активировать сертификат</button>
-        <div id="giftMessage" style="margin-top: 20px;"></div>
+        <a href="/beauty-salon/activate_gift.php" class="btn">Активировать сертификат</a>
     </div>
 
     <!-- Наши мастера -->
@@ -128,23 +127,5 @@ if (file_exists('data/services.json')) {
         </div>
     </section>
 </div>
-
-<script>
-function activateGift() {
-    const name = prompt("Введите ваше имя для активации сертификата:");
-    if (name && name.trim()) {
-        const messageDiv = document.getElementById('giftMessage');
-        messageDiv.innerHTML = '<div class="message success">🎉 Спасибо, ' + name + '! Ваш сертификат активирован. Покажите это сообщение администратору при посещении. 🎉</div>';
-        
-        const giftCard = document.getElementById('giftCard');
-        giftCard.style.transform = 'scale(1.02)';
-        setTimeout(() => {
-            giftCard.style.transform = 'scale(1)';
-        }, 500);
-    } else {
-        alert('Пожалуйста, введите ваше имя');
-    }
-}
-</script>
 
 <?php require_once 'includes/footer.php'; ?>

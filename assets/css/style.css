@@ -1,3 +1,6 @@
+/* Подключаем красивый шрифт - @import должен быть в самом начале */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -18,9 +21,6 @@ body {
     margin: 0 auto;
     padding: 20px;
 }
-
-/* Подключаем красивый шрифт */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 
 /* Анимация для появления элементов */
 @keyframes fadeInUp {

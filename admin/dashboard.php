@@ -20,6 +20,21 @@ if (file_exists('../data/services.json')) {
         $servicesMap[$s['id']] = $s['name'];
     }
 }
+
+// Обработка удаления записи
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_appointment'])) {
+    $id = $_POST['delete_appointment'];
+    $file = '../data/appointments.json';
+    if (file_exists($file)) {
+        $appointments = json_decode(file_get_contents($file), true);
+        $appointments = array_filter($appointments, function($app) use ($id) {
+            return $app['id'] != $id;
+        });
+        file_put_contents($file, json_encode(array_values($appointments), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        header('Location: dashboard.php');
+        exit;
+    }
+}
 ?>
 
 <div class="container">
@@ -27,6 +42,7 @@ if (file_exists('../data/services.json')) {
     <nav style="margin-bottom: 20px; text-align: center;">
         <a href="/beauty-salon/admin/services.php" class="btn" style="margin-right: 10px;">Управление услугами</a>
         <a href="/beauty-salon/admin/logs.php" class="btn" style="margin-right: 10px; background-color: #17a2b8;">📊 Просмотр логов</a>
+        <a href="/beauty-salon/admin/gift_certificates.php" class="btn" style="margin-right: 10px; background-color: #28a745;">🎁 Сертификаты</a>
         <a href="/beauty-salon/admin/logout.php" class="btn" style="background-color: #6c757d;">Выйти</a>
     </nav>
 
@@ -57,8 +73,8 @@ if (file_exists('../data/services.json')) {
                         <td><?= htmlspecialchars($app['date']) ?></td>
                         <td><?= htmlspecialchars($app['time']) ?></td>
                         <td>
-                            <form method="POST" action="/beauty-salon/admin/delete_appointment.php" style="display:inline;">
-                                <input type="hidden" name="id" value="<?= $app['id'] ?>">
+                            <form method="POST" action="" style="display:inline;">
+                                <input type="hidden" name="delete_appointment" value="<?= $app['id'] ?>">
                                 <button type="submit" class="btn btn-small" onclick="return confirm('Удалить запись?')">Удалить</button>
                             </form>
                         </td>
