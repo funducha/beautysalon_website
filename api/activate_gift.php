@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json');
+date_default_timezone_set('Asia/Krasnoyarsk'); // Устанавливаем Красноярское время
 
 $input = json_decode(file_get_contents('php://input'), true);
 

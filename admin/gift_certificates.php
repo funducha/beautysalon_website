@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Asia/Krasnoyarsk'); // Устанавливаем Красноярское время
 require_once '../includes/auth_check.php';
 require_once '../includes/header.php';
 
