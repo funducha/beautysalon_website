@@ -1,11 +1,9 @@
 <?php
 header('Content-Type: application/json');
-date_default_timezone_set('Asia/Krasnoyarsk'); // Устанавливаем Красноярское время
+date_default_timezone_set('Asia/Krasnoyarsk');
 
-// Получаем данные из POST-запроса (AJAX отправит JSON)
 $input = json_decode(file_get_contents('php://input'), true);
 
-// Простейшая валидация
 if (empty($input['name']) || empty($input['phone']) || empty($input['service_id']) || empty($input['date']) || empty($input['time'])) {
     echo json_encode(['success' => false, 'message' => 'Заполните все поля']);
     exit;
@@ -17,7 +15,6 @@ $service_id = (int)$input['service_id'];
 $date = trim($input['date']);
 $time = trim($input['time']);
 
-// ИСПРАВЛЕНО: путь к файлу appointments.json
 $file = '../data/appointments.json';
 $appointments = [];
 
@@ -26,11 +23,18 @@ if (file_exists($file)) {
     if (!is_array($appointments)) {
         $appointments = [];
     }
+    
+    // Проверка на дубликат (та же дата, время и услуга)
+    foreach ($appointments as $app) {
+        if ($app['date'] == $date && $app['time'] == $time && $app['service_id'] == $service_id) {
+            echo json_encode(['success' => false, 'message' => 'Это время уже занято. Выберите другое время.']);
+            exit;
+        }
+    }
 }
 
-// Создаем новую запись
 $newAppointment = [
-    'id' => time() . rand(100, 999), // уникальный id
+    'id' => time() . rand(100, 999),
     'client_name' => htmlspecialchars($name),
     'client_phone' => htmlspecialchars($phone),
     'service_id' => $service_id,
@@ -41,7 +45,6 @@ $newAppointment = [
 
 $appointments[] = $newAppointment;
 
-// Сохраняем обратно в файл
 $result = file_put_contents($file, json_encode($appointments, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
 if ($result === false) {

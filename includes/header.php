@@ -27,17 +27,22 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <header>
         <div class="container">
             <a href="/beauty-salon/index.php" class="logo">BeautySalon</a>
-            <nav>
-                <a href="/beauty-salon/index.php" class="<?= $current_page == 'index.php' ? 'active' : '' ?>">Главная</a>
-                <a href="/beauty-salon/services.php" class="<?= $current_page == 'services.php' ? 'active' : '' ?>">Услуги</a>
-                <a href="/beauty-salon/booking.php" class="<?= $current_page == 'booking.php' ? 'active' : '' ?>">Онлайн-запись</a>
-                <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
-                    <a href="/beauty-salon/admin/dashboard.php">Админка</a>
-                    <a href="/beauty-salon/admin/logout.php">Выйти</a>
-                <?php else: ?>
-                    <a href="/beauty-salon/login.php">Вход для админа</a>
-                <?php endif; ?>
-            </nav>
+            <div style="display: flex; align-items: center; gap: 30px;">
+                <nav>
+                    <a href="/beauty-salon/index.php" class="<?= $current_page == 'index.php' ? 'active' : '' ?>">Главная</a>
+                    <a href="/beauty-salon/services.php" class="<?= $current_page == 'services.php' ? 'active' : '' ?>">Услуги</a>
+                    <a href="/beauty-salon/booking.php" class="<?= $current_page == 'booking.php' ? 'active' : '' ?>">Онлайн-запись</a>
+                    <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
+                        <a href="/beauty-salon/admin/dashboard.php">Админка</a>
+                        <a href="/beauty-salon/admin/logout.php">Выйти</a>
+                    <?php else: ?>
+                        <a href="/beauty-salon/login.php">Вход для админа</a>
+                    <?php endif; ?>
+                </nav>
+                <div class="phone-number" style="color: #fff5f0; font-weight: 500;">
+                    📞 +7 (999) 123-45-67
+                </div>
+            </div>
         </div>
     </header>
     <main>

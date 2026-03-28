@@ -7,7 +7,7 @@ if (file_exists('data/services.json')) {
 ?>
 
 <div class="container">
-    <h1 class="page-title">Наши услуги и цены</h1>
+
     
     <!-- Баннер с фото - ИСПРАВЛЕННЫЙ ПУТЬ -->
     <div style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/beauty-salon/assets/images/services-bg.jpg'); background-size: cover; background-position: center; border-radius: 20px; padding: 60px; text-align: center; margin-bottom: 40px;">

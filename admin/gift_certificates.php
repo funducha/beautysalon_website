@@ -43,7 +43,7 @@ if (file_exists('../data/gift_certificates.json')) {
                         <td>
                             <form method="POST" action="/beauty-salon/admin/delete_gift.php" style="display:inline;">
                                 <input type="hidden" name="id" value="<?= $cert['id'] ?>">
-                                <button type="submit" class="btn btn-small" onclick="return confirm('Отметить сертификат как использованный?')">✔ Прочитано</button>
+                                <button type="submit" class="btn btn-small" onclick="return confirm('Отметить сертификат как использованный?')">Прочитано</button>
                             </form>
                         </td>
                     </tr>

@@ -5,7 +5,18 @@ require_once '../includes/header.php';
 $appointments = [];
 if (file_exists('../data/appointments.json')) {
     $appointments = json_decode(file_get_contents('../data/appointments.json'), true);
-    // Для красоты можно отсортировать по дате
+    // Удаляем возможные дубликаты по id
+    $uniqueAppointments = [];
+    $seenIds = [];
+    foreach ($appointments as $app) {
+        if (!in_array($app['id'], $seenIds)) {
+            $seenIds[] = $app['id'];
+            $uniqueAppointments[] = $app;
+        }
+    }
+    $appointments = $uniqueAppointments;
+    
+    // Сортируем по дате
     usort($appointments, function($a, $b) {
         return strtotime($b['date']) - strtotime($a['date']);
     });
@@ -26,11 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_appointment'])
     $id = $_POST['delete_appointment'];
     $file = '../data/appointments.json';
     if (file_exists($file)) {
-        $appointments = json_decode(file_get_contents($file), true);
-        $appointments = array_filter($appointments, function($app) use ($id) {
+        $appointmentsData = json_decode(file_get_contents($file), true);
+        $appointmentsData = array_filter($appointmentsData, function($app) use ($id) {
             return $app['id'] != $id;
         });
-        file_put_contents($file, json_encode(array_values($appointments), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        file_put_contents($file, json_encode(array_values($appointmentsData), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         header('Location: dashboard.php');
         exit;
     }
@@ -40,13 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_appointment'])
 <div class="container">
     <h1 class="page-title">Панель администратора</h1>
     <nav style="margin-bottom: 20px; text-align: center;">
-        <a href="/beauty-salon/admin/services.php" class="btn" style="margin-right: 10px;">Управление услугами</a>
+        <a href="/beauty-salon/admin/services.php" class="btn" style="margin-right: 10px;">📋 Управление услугами</a>
         <a href="/beauty-salon/admin/logs.php" class="btn" style="margin-right: 10px; background-color: #17a2b8;">📊 Просмотр логов</a>
         <a href="/beauty-salon/admin/gift_certificates.php" class="btn" style="margin-right: 10px; background-color: #28a745;">🎁 Сертификаты</a>
-        <a href="/beauty-salon/admin/logout.php" class="btn" style="background-color: #6c757d;">Выйти</a>
+        <a href="/beauty-salon/admin/logout.php" class="btn" style="background-color: #6c757d;">🚪 Выйти</a>
     </nav>
 
-    <h2>Все записи клиентов</h2>
+    <h2>Все онлайн записи клиентов</h2>
     <?php if (empty($appointments)): ?>
         <p>Пока нет ни одной записи.</p>
     <?php else: ?>
@@ -75,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_appointment'])
                         <td>
                             <form method="POST" action="" style="display:inline;">
                                 <input type="hidden" name="delete_appointment" value="<?= $app['id'] ?>">
-                                <button type="submit" class="btn btn-small" onclick="return confirm('Удалить запись?')">Удалить</button>
+                                <button type="submit" class="btn btn-small" onclick="return confirm('Отметить запись как выполненную?')">Прочитано</button>
                             </form>
                         </td>
                     </tr>

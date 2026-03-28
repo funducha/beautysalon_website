@@ -47,18 +47,29 @@ if (file_exists('data/services.json')) {
         </div>
     </section>
 
-    <!-- Подарочный сертификат -->
-    <div class="gift-card" id="giftCard">
-        <h2>🎁 Подарочный сертификат</h2>
-        <p>Лучший подарок для близких! Сертификат на любые услуги салона.</p>
-        <div class="price">
-            <span class="old-price">5 000 ₽</span>
-            <span>3 500 ₽</span>
-            <span class="discount">-30%</span>
-        </div>
-        <p style="margin: 20px 0;">✨ Действует 6 месяцев ✨</p>
-        <a href="/beauty-salon/activate_gift.php" class="btn">Активировать сертификат</a>
+<!-- Подарочный сертификат - яркий и стильный дизайн -->
+<div class="gift-card" id="giftCard">
+    <div class="gift-sparkles">✨</div>
+    <div class="gift-sparkles sparkle-2">✨</div>
+    <div class="gift-sparkles sparkle-3">✨</div>
+    <h2>🎁 Подарочный сертификат</h2>
+    <p class="gift-subtitle">Идеальный подарок для особенных моментов</p>
+    <div class="gift-amounts">
+        <span class="gift-amount">2 000 ₽</span>
+        <span class="gift-amount">3 000 ₽</span>
+        <span class="gift-amount">4 000 ₽</span>
+        <span class="gift-amount">5 000 ₽</span>
     </div>
+    <div class="gift-features">
+        <div class="gift-feature">✓ Любая услуга салона</div>
+        <div class="gift-feature">✓ Действует 6 месяцев</div>
+        <div class="gift-feature">✓ Можно передарить</div>
+    </div>
+    <div class="gift-promo">
+        <span class="gift-promo-text">🎀 Подари красоту близким!</span>
+    </div>
+    <a href="/beauty-salon/activate_gift.php" class="btn gift-btn">Активировать сертификат →</a>
+</div>
 
     <!-- Наши мастера -->
     <section>
@@ -87,7 +98,7 @@ if (file_exists('data/services.json')) {
         </div>
     </section>
 
-    <!-- Галерея работ с рамками -->
+    <!-- Галерея работ с рамками - 6 работ -->
     <section>
         <h2 style="text-align: center; margin: 60px 0 40px; font-size: 2rem; color: #b76e79; font-family: 'Playfair Display', serif;">Наши работы</h2>
         <div class="gallery">
@@ -102,6 +113,18 @@ if (file_exists('data/services.json')) {
             <div class="gallery-item">
                 <img src="/beauty-salon/assets/images/gallery/work3.jpg" alt="Макияж" class="gallery-img" onerror="this.src='/beauty-salon/assets/images/placeholder.jpg'; this.onerror=null;">
                 <div class="gallery-overlay">Вечерний макияж</div>
+            </div>
+            <div class="gallery-item">
+                <img src="/beauty-salon/assets/images/gallery/work4.jpg" alt="Окрашивание" class="gallery-img" onerror="this.src='/beauty-salon/assets/images/placeholder.jpg'; this.onerror=null;">
+                <div class="gallery-overlay">Окрашивание волос</div>
+            </div>
+            <div class="gallery-item">
+                <img src="/beauty-salon/assets/images/gallery/work5.jpg" alt="Педикюр" class="gallery-img" onerror="this.src='/beauty-salon/assets/images/placeholder.jpg'; this.onerror=null;">
+                <div class="gallery-overlay">СПА-педикюр</div>
+            </div>
+            <div class="gallery-item">
+                <img src="/beauty-salon/assets/images/gallery/work6.jpg" alt="Чистка лица" class="gallery-img" onerror="this.src='/beauty-salon/assets/images/placeholder.jpg'; this.onerror=null;">
+                <div class="gallery-overlay">Чистка лица</div>
             </div>
         </div>
     </section>

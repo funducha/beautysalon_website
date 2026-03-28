@@ -6,12 +6,12 @@ require_once 'includes/header.php';
         <h1 class="page-title" style="text-align: center;">Активация подарочного сертификата</h1>
         <form id="giftActivationForm">
             <div class="form-group">
-                <label for="gift_name">Ваше полное имя *</label>
+                <label for="gift_name">Полное имя получателя *</label>
                 <input type="text" id="gift_name" name="name" required autocomplete="name">
             </div>
             <div class="form-group">
                 <label for="gift_phone">Номер телефона *</label>
-                <input type="tel" id="gift_phone" name="phone" required autocomplete="tel">
+                <input type="tel" id="gift_phone" name="phone" required autocomplete="tel" placeholder="8 999 123 45 67">
             </div>
             <div class="form-group">
                 <label for="gift_amount">Выберите номинал сертификата *</label>
@@ -30,12 +30,35 @@ require_once 'includes/header.php';
 </div>
 
 <script>
+    // Функция форматирования номера телефона
+    function formatPhoneNumber(input) {
+        let value = input.value.replace(/\D/g, '');
+        if (value.length > 0) {
+            let formatted = '';
+            if (value.length >= 1) formatted = value.substring(0, 1);
+            if (value.length >= 2) formatted = value.substring(0, 1) + ' ' + value.substring(1, 4);
+            if (value.length >= 5) formatted = value.substring(0, 1) + ' ' + value.substring(1, 4) + ' ' + value.substring(4, 7);
+            if (value.length >= 8) formatted = value.substring(0, 1) + ' ' + value.substring(1, 4) + ' ' + value.substring(4, 7) + ' ' + value.substring(7, 9);
+            if (value.length >= 10) formatted = value.substring(0, 1) + ' ' + value.substring(1, 4) + ' ' + value.substring(4, 7) + ' ' + value.substring(7, 9) + ' ' + value.substring(9, 11);
+            input.value = formatted;
+        }
+    }
+    
+    // Применяем форматирование к полю телефона
+    const giftPhoneInput = document.getElementById('gift_phone');
+    giftPhoneInput.addEventListener('input', function() {
+        formatPhoneNumber(this);
+    });
+    
     document.getElementById('giftActivationForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
         const name = document.getElementById('gift_name').value.trim();
-        const phone = document.getElementById('gift_phone').value.trim();
+        let phone = document.getElementById('gift_phone').value.trim();
         const amount = document.getElementById('gift_amount').value;
+        
+        // Убираем пробелы из номера телефона перед отправкой
+        phone = phone.replace(/\s/g, '');
         
         if (!name) {
             showModal('Ошибка', 'Пожалуйста, введите ваше имя');

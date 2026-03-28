@@ -12,12 +12,12 @@ if (file_exists('data/services.json')) {
     <div class="form-container">
         <form id="bookingForm">
             <div class="form-group">
-                <label for="name">Ваше имя *</label>
+                <label for="name">Ваше полное имя *</label>
                 <input type="text" id="name" name="name" required autocomplete="name">
             </div>
             <div class="form-group">
-                <label for="phone">Телефон *</label>
-                <input type="tel" id="phone" name="phone" required autocomplete="tel">
+                <label for="phone">Номер телефона *</label>
+                <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="8 999 123 45 67">
             </div>
             <div class="form-group">
                 <label for="service">Выберите услугу *</label>
@@ -53,6 +53,26 @@ if (file_exists('data/services.json')) {
 </div>
 
 <script>
+    // Функция форматирования номера телефона
+    function formatPhoneNumber(input) {
+        let value = input.value.replace(/\D/g, '');
+        if (value.length > 0) {
+            let formatted = '';
+            if (value.length >= 1) formatted = value.substring(0, 1);
+            if (value.length >= 2) formatted = value.substring(0, 1) + ' ' + value.substring(1, 4);
+            if (value.length >= 5) formatted = value.substring(0, 1) + ' ' + value.substring(1, 4) + ' ' + value.substring(4, 7);
+            if (value.length >= 8) formatted = value.substring(0, 1) + ' ' + value.substring(1, 4) + ' ' + value.substring(4, 7) + ' ' + value.substring(7, 9);
+            if (value.length >= 10) formatted = value.substring(0, 1) + ' ' + value.substring(1, 4) + ' ' + value.substring(4, 7) + ' ' + value.substring(7, 9) + ' ' + value.substring(9, 11);
+            input.value = formatted;
+        }
+    }
+    
+    // Применяем форматирование к полю телефона
+    const phoneInput = document.getElementById('phone');
+    phoneInput.addEventListener('input', function() {
+        formatPhoneNumber(this);
+    });
+    
     // Получаем элементы формы
     const serviceSelect = document.getElementById('service');
     const dateInput = document.getElementById('date');
@@ -126,7 +146,7 @@ if (file_exists('data/services.json')) {
         // Собираем данные
         const data = {
             name: document.getElementById('name').value.trim(),
-            phone: document.getElementById('phone').value.trim(),
+            phone: document.getElementById('phone').value.trim().replace(/\s/g, ''),
             service_id: serviceSelect.value,
             date: dateInput.value,
             time: timeSelect.value,
@@ -135,7 +155,7 @@ if (file_exists('data/services.json')) {
         
         // Валидация
         if (!data.name) {
-            showModal('Внимание', 'Пожалуйста, введите ваше имя');
+            showModal('Внимание', 'Пожалуйста, введите ваше полное имя');
             return;
         }
         if (!data.phone) {

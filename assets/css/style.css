@@ -11,8 +11,21 @@ body {
     font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #5a4a42;
-    background: linear-gradient(135deg, #fff9f5 0%, #fff5f0 100%);
+    background: url('/beauty-salon/assets/images/background.jpg') center/cover fixed no-repeat;
     min-height: 100vh;
+    position: relative;
+}
+
+/* Затемнение фона для читаемости текста */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 245, 240, 0.85);
+    z-index: -1;
 }
 
 .container {
@@ -71,6 +84,8 @@ header .container {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .logo {
@@ -92,13 +107,20 @@ header .container {
     background-clip: text;
 }
 
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
 nav a {
-    margin-left: 25px;
     text-decoration: none;
     color: #fff5f0;
     font-weight: 500;
     transition: all 0.3s ease;
     position: relative;
+    white-space: nowrap;
 }
 
 nav a::after {
@@ -181,9 +203,9 @@ nav a:hover {
     background-position: center;
     background-attachment: fixed;
     border-radius: 20px;
-    padding: 150px 20px;
+    padding: 90px 20px;
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 0px;
     color: white;
     animation: none;
 }
@@ -203,8 +225,8 @@ nav a:hover {
 /* Блок "О нас" с узорной рамкой */
 .about-section {
     text-align: center;
-    margin: 60px 0;
-    padding: 50px 40px;
+    margin: 10px 60px 40px;
+    padding: 30px 40px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 245, 240, 0.95));
     border-radius: 30px;
     position: relative;
@@ -316,59 +338,184 @@ nav a:hover {
     margin: 20px 0;
 }
 
-/* Карточка подарка */
+/* Карточка подарка - яркий дизайн */
 .gift-card {
-    background: linear-gradient(135deg, #fff0e8, #ffe8e0);
-    border-radius: 20px;
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    border-radius: 30px;
     padding: 40px;
     margin: 50px 0;
     text-align: center;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    animation: float 3s ease-in-out infinite;
-    border: 1px solid #f5c6cb;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 215, 180, 0.5);
+    animation: giftPulse 2s ease-in-out infinite;
+    border: none;
+}
+
+@keyframes giftPulse {
+    0% {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 215, 180, 0.5);
+    }
+    50% {
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(255, 200, 150, 0.8);
+    }
+    100% {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 215, 180, 0.5);
+    }
 }
 
 .gift-card::before {
-    content: '🎁';
-    font-size: 100px;
+    content: '';
     position: absolute;
-    right: -20px;
-    bottom: -20px;
-    opacity: 0.2;
-    transform: rotate(-15deg);
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+    opacity: 0.5;
+    pointer-events: none;
+    animation: shimmer 8s linear infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-30%) translateY(-30%) rotate(0deg);
+    }
+    100% {
+        transform: translateX(30%) translateY(30%) rotate(360deg);
+    }
+}
+
+.gift-sparkles {
+    position: absolute;
+    font-size: 24px;
+    opacity: 0.6;
+    animation: sparkleFloat 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.gift-sparkles.sparkle-2 {
+    top: 15%;
+    right: 10%;
+    animation-delay: 0.5s;
+    font-size: 20px;
+}
+
+.gift-sparkles.sparkle-3 {
+    bottom: 10%;
+    left: 15%;
+    animation-delay: 1s;
+    font-size: 28px;
+}
+
+@keyframes sparkleFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translateY(-10px) rotate(10deg);
+        opacity: 1;
+    }
 }
 
 .gift-card h2 {
-    font-size: 2rem;
-    color: #b76e79;
-    margin-bottom: 20px;
+    font-size: 2.2rem;
+    color: #b45f3b;
+    margin-bottom: 10px;
     font-family: 'Playfair Display', serif;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+    position: relative;
+    z-index: 2;
 }
 
-.gift-card .price {
-    font-size: 2.5rem;
+.gift-subtitle {
+    font-size: 1rem;
+    color: #b45f3b;
+    margin-bottom: 25px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+}
+
+.gift-card .gift-amounts {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+}
+
+.gift-card .gift-amount {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px 24px;
+    border-radius: 60px;
+    color: #b45f3b;
     font-weight: bold;
-    color: #d4af37;
-    margin: 20px 0;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: default;
 }
 
-.gift-card .old-price {
-    text-decoration: line-through;
-    color: #999;
-    font-size: 1.2rem;
-    margin-right: 15px;
+.gift-card .gift-amount:hover {
+    transform: translateY(-3px);
+    background: white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.gift-card .discount {
+.gift-features {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin: 30px 0 20px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+}
+
+.gift-feature {
+    background: rgba(255, 245, 235, 0.9);
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    color: #b45f3b;
+    font-weight: 500;
+    backdrop-filter: blur(4px);
+}
+
+.gift-promo {
+    margin: 20px 0 25px;
+    position: relative;
+    z-index: 2;
+}
+
+.gift-promo-text {
     display: inline-block;
-    background: #ff6b6b;
-    color: white;
-    padding: 5px 15px;
+    background: linear-gradient(135deg, #ffd89b, #c7e9fb);
+    padding: 8px 24px;
     border-radius: 50px;
-    font-weight: bold;
-    margin-left: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #b45f3b;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gift-btn {
+    background: linear-gradient(135deg, #b45f3b, #d48c5b);
+    box-shadow: 0 8px 20px rgba(180, 95, 59, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+    font-weight: 600;
+}
+
+.gift-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(180, 95, 59, 0.4);
+    background: linear-gradient(135deg, #c46a42, #e29c6b);
 }
 
 /* Мастера */
@@ -568,4 +715,176 @@ footer {
     text-align: center;
     padding: 40px 0;
     margin-top: 60px;
+}
+
+/* ========== АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ ========== */
+
+/* Для планшетов и маленьких экранов (до 992px) */
+@media (max-width: 992px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero p {
+        font-size: 1.1rem;
+    }
+    
+    .about-section {
+        margin: 10px 20px 40px;
+        padding: 30px 20px;
+    }
+    
+    .about-section h2 {
+        font-size: 2rem;
+    }
+    
+    .about-section p {
+        font-size: 1rem;
+    }
+}
+
+/* Для мобильных устройств (до 768px) */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .logo {
+        margin-bottom: 10px;
+    }
+    
+    nav {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+    
+    nav a {
+        margin: 0 8px;
+        white-space: normal;
+        font-size: 0.9rem;
+    }
+    
+    .phone-number {
+        font-size: 0.9rem;
+    }
+    
+    .hero {
+        padding: 60px 15px;
+    }
+    
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .about-section {
+        margin: 10px 15px 30px;
+        padding: 25px 15px;
+    }
+    
+    .about-section h2 {
+        font-size: 1.8rem;
+    }
+    
+    .about-section p {
+        font-size: 0.95rem;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+    
+    .masters-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    
+    .gift-card {
+        padding: 30px 20px;
+        margin: 30px 0;
+    }
+    
+    .gift-card h2 {
+        font-size: 1.6rem;
+    }
+    
+    .gift-card .gift-amounts {
+        gap: 10px;
+    }
+    
+    .gift-card .gift-amounts span {
+        padding: 5px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .form-container {
+        padding: 25px 20px;
+    }
+    
+    table {
+        font-size: 0.85rem;
+    }
+    
+    th, td {
+        padding: 10px 8px;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Для очень маленьких экранов (до 480px) */
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+    
+    .hero p {
+        font-size: 0.9rem;
+    }
+    
+    nav a {
+        font-size: 0.8rem;
+        margin: 0 5px;
+    }
+    
+    .phone-number {
+        font-size: 0.8rem;
+    }
+    
+    .about-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .service-card h3 {
+        font-size: 1.3rem;
+    }
+    
+    .service-card .price {
+        font-size: 1.5rem;
+    }
+    
+    .gift-card h2 {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 550px) {
+    .phone-number {
+        width: 100%;
+        text-align: center;
+        margin-top: 5px;
+    }
 }
