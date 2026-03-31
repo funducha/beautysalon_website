@@ -5,7 +5,15 @@ require_once '../includes/header.php';
 
 $certificates = [];
 if (file_exists('../data/gift_certificates.json')) {
-    $certificates = json_decode(file_get_contents('../data/gift_certificates.json'), true);
+    $certificatesData = json_decode(file_get_contents('../data/gift_certificates.json'), true);
+    
+    // Проверка: если данные не массив или null, устанавливаем пустой массив
+    if (!is_array($certificatesData)) {
+        $certificatesData = [];
+    }
+    
+    $certificates = $certificatesData;
+    
     // Сортируем по дате активации, новые сверху
     usort($certificates, function($a, $b) {
         return strtotime($b['activated_at']) - strtotime($a['activated_at']);
@@ -27,6 +35,7 @@ if (file_exists('../data/gift_certificates.json')) {
                         <th>ID</th>
                         <th>Имя клиента</th>
                         <th>Телефон</th>
+                        <th>Email</th>
                         <th>Сумма (₽)</th>
                         <th>Дата активации</th>
                         <th>Действия</th>
@@ -38,6 +47,7 @@ if (file_exists('../data/gift_certificates.json')) {
                         <td><?= $cert['id'] ?></td>
                         <td><?= htmlspecialchars($cert['client_name']) ?></td>
                         <td><?= htmlspecialchars($cert['client_phone']) ?></td>
+                        <td><?= (!empty($cert['client_email'])) ? htmlspecialchars($cert['client_email']) : '-' ?></td>
                         <td><?= htmlspecialchars($cert['amount']) ?></td>
                         <td><?= htmlspecialchars($cert['activated_at']) ?></td>
                         <td>

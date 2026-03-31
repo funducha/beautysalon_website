@@ -11,11 +11,24 @@ if (file_exists('data/services.json')) {
 <!-- Герой-секция с фоновым фото -->
 <div class="hero">
     <div class="container">
-        <h1>Салон красоты "Эстетика"</h1>
-        <p>Преображение, которое вдохновляет</p>
-        <a href="/beauty-salon/booking.php" class="btn">Записаться онлайн</a>
+        <h1 style="animation: slideUpFade 0.6s ease-out 0.1s forwards; opacity: 0;">Салон красоты "Эстетика"</h1>
+        <p style="animation: slideUpFade 0.6s ease-out 0.3s forwards; opacity: 0;">Преображение, которое вдохновляет</p>
+        <a href="/beauty-salon/booking.php" class="btn" style="animation: slideUpFade 0.6s ease-out 0.5s forwards; opacity: 0;">Записаться онлайн</a>
     </div>
 </div>
+
+<style>
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
 
 <div class="container">
     <!-- О нас с узорной рамкой -->

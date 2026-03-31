@@ -14,6 +14,10 @@ require_once 'includes/header.php';
                 <input type="tel" id="gift_phone" name="phone" required autocomplete="tel" placeholder="8 999 123 45 67">
             </div>
             <div class="form-group">
+                <label for="gift_email">Электронная почта</label>
+                <input type="email" id="gift_email" name="email" autocomplete="email" placeholder="example@mail.ru">
+            </div>
+            <div class="form-group">
                 <label for="gift_amount">Выберите номинал сертификата *</label>
                 <select id="gift_amount" name="amount" required>
                     <option value="">-- Выберите сумму --</option>
@@ -23,6 +27,15 @@ require_once 'includes/header.php';
                     <option value="5000">5 000 ₽</option>
                 </select>
             </div>
+            
+            <!-- Блок согласия на обработку ПДн -->
+            <div class="form-group" style="margin-top: 20px;">
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <input type="checkbox" id="gift_consent" required style="width: auto;">
+                    <span>Я согласен(на) на обработку моих персональных данных в соответствии с <a href="#" style="color: #b76e79;" onclick="alert('Политика обработки ПДн: Ваши данные используются только для активации сертификата и не передаются третьим лицам.'); return false;">политикой конфиденциальности</a> *</span>
+                </label>
+            </div>
+
             <button type="submit" class="btn" style="width: 100%;">Активировать сертификат</button>
         </form>
         <div id="giftMessage" style="margin-top: 20px;"></div>
@@ -46,15 +59,25 @@ require_once 'includes/header.php';
     
     // Применяем форматирование к полю телефона
     const giftPhoneInput = document.getElementById('gift_phone');
-    giftPhoneInput.addEventListener('input', function() {
-        formatPhoneNumber(this);
-    });
+    if (giftPhoneInput) {
+        giftPhoneInput.addEventListener('input', function() {
+            formatPhoneNumber(this);
+        });
+    }
     
     document.getElementById('giftActivationForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
+        // Проверка согласия на обработку ПДн
+        const consentCheckbox = document.getElementById('gift_consent');
+        if (!consentCheckbox.checked) {
+            showModal('Внимание', 'Пожалуйста, дайте согласие на обработку персональных данных');
+            return;
+        }
+
         const name = document.getElementById('gift_name').value.trim();
         let phone = document.getElementById('gift_phone').value.trim();
+        const email = document.getElementById('gift_email').value.trim();
         const amount = document.getElementById('gift_amount').value;
         
         // Убираем пробелы из номера телефона перед отправкой
@@ -76,6 +99,7 @@ require_once 'includes/header.php';
         const data = {
             name: name,
             phone: phone,
+            email: email,
             amount: amount
         };
 
@@ -89,6 +113,8 @@ require_once 'includes/header.php';
             if (result.success) {
                 showSuccessModal('🎉 Сертификат успешно активирован!', 'Ваш сертификат на сумму ' + amount + ' ₽ активирован. Всю информацию уточняйте у администратора в салоне.');
                 document.getElementById('giftActivationForm').reset();
+                // Сбрасываем чекбокс согласия
+                document.getElementById('gift_consent').checked = false;
             } else {
                 showModal('Ошибка', result.message);
             }
@@ -99,19 +125,17 @@ require_once 'includes/header.php';
         });
     });
 
-    // Функция для показа модального окна с ошибкой
+    // Функции модальных окон
     function showModal(title, message) {
         const modal = createModal(title, message, false);
         document.body.appendChild(modal);
     }
 
-    // Функция для показа успешного модального окна
     function showSuccessModal(title, message) {
         const modal = createModal(title, message, true);
         document.body.appendChild(modal);
     }
 
-    // Функция создания модального окна
     function createModal(title, message, hasReturnButton) {
         const modal = document.createElement('div');
         modal.style.position = 'fixed';
@@ -132,9 +156,7 @@ require_once 'includes/header.php';
         modalContent.style.width = '90%';
         modalContent.style.boxShadow = '0 5px 25px rgba(0,0,0,0.2)';
         modalContent.style.position = 'relative';
-        modalContent.style.animation = 'fadeInUp 0.3s ease';
         
-        // Крестик закрытия
         const closeBtn = document.createElement('button');
         closeBtn.innerHTML = '✕';
         closeBtn.style.position = 'absolute';
@@ -145,13 +167,8 @@ require_once 'includes/header.php';
         closeBtn.style.border = 'none';
         closeBtn.style.cursor = 'pointer';
         closeBtn.style.color = '#999';
-        closeBtn.style.fontWeight = 'bold';
-        closeBtn.style.transition = 'color 0.3s';
-        closeBtn.onmouseover = () => closeBtn.style.color = '#b76e79';
-        closeBtn.onmouseout = () => closeBtn.style.color = '#999';
         closeBtn.onclick = () => modal.remove();
         
-        // Заголовок
         const titleEl = document.createElement('h3');
         titleEl.textContent = title;
         titleEl.style.color = '#b76e79';
@@ -160,7 +177,6 @@ require_once 'includes/header.php';
         titleEl.style.fontSize = '1.5rem';
         titleEl.style.fontFamily = "'Playfair Display', serif";
         
-        // Сообщение
         const messageEl = document.createElement('p');
         messageEl.textContent = message;
         messageEl.style.padding = '0 30px';
@@ -172,46 +188,31 @@ require_once 'includes/header.php';
         modalContent.appendChild(titleEl);
         modalContent.appendChild(messageEl);
         
+        const closeModalBtn = document.createElement('button');
+        closeModalBtn.textContent = hasReturnButton ? 'Вернуться на главную' : 'Закрыть';
+        closeModalBtn.style.background = 'linear-gradient(135deg, #b76e79, #d89aa4)';
+        closeModalBtn.style.color = 'white';
+        closeModalBtn.style.border = 'none';
+        closeModalBtn.style.padding = '12px 25px';
+        closeModalBtn.style.borderRadius = '50px';
+        closeModalBtn.style.cursor = 'pointer';
+        closeModalBtn.style.fontSize = '1rem';
+        closeModalBtn.style.fontWeight = '600';
+        closeModalBtn.style.margin = '0 30px 30px 30px';
+        closeModalBtn.style.display = 'block';
+        closeModalBtn.style.width = 'calc(100% - 60px)';
+        
         if (hasReturnButton) {
-            const returnBtn = document.createElement('button');
-            returnBtn.textContent = 'Вернуться на главную';
-            returnBtn.style.background = 'linear-gradient(135deg, #b76e79, #d89aa4)';
-            returnBtn.style.color = 'white';
-            returnBtn.style.border = 'none';
-            returnBtn.style.padding = '12px 25px';
-            returnBtn.style.borderRadius = '50px';
-            returnBtn.style.cursor = 'pointer';
-            returnBtn.style.fontSize = '1rem';
-            returnBtn.style.fontWeight = '600';
-            returnBtn.style.margin = '0 30px 30px 30px';
-            returnBtn.style.display = 'block';
-            returnBtn.style.width = 'calc(100% - 60px)';
-            returnBtn.style.transition = 'all 0.3s ease';
-            returnBtn.onclick = () => {
+            closeModalBtn.onclick = () => {
                 window.location.href = '/beauty-salon/index.php';
             };
-            modalContent.appendChild(returnBtn);
         } else {
-            const closeModalBtn = document.createElement('button');
-            closeModalBtn.textContent = 'Закрыть';
-            closeModalBtn.style.background = 'linear-gradient(135deg, #b76e79, #d89aa4)';
-            closeModalBtn.style.color = 'white';
-            closeModalBtn.style.border = 'none';
-            closeModalBtn.style.padding = '12px 25px';
-            closeModalBtn.style.borderRadius = '50px';
-            closeModalBtn.style.cursor = 'pointer';
-            closeModalBtn.style.fontSize = '1rem';
-            closeModalBtn.style.fontWeight = '600';
-            closeModalBtn.style.margin = '0 30px 30px 30px';
-            closeModalBtn.style.display = 'block';
-            closeModalBtn.style.width = 'calc(100% - 60px)';
             closeModalBtn.onclick = () => modal.remove();
-            modalContent.appendChild(closeModalBtn);
         }
         
+        modalContent.appendChild(closeModalBtn);
         modal.appendChild(modalContent);
         
-        // Закрытие по клику на фон
         modal.addEventListener('click', function(e) {
             if (e.target === modal) {
                 modal.remove();

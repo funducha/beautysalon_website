@@ -89,22 +89,25 @@ header .container {
 }
 
 .logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    font-family: 'Playfair Display', serif;
-    background: linear-gradient(135deg, #fff5f0, #ffe8e0);
+    font-size: 2rem;
+    font-weight: 600;
+    font-family: 'Playfair Display', 'Georgia', serif;
+    background: linear-gradient(135deg, #fff5f0, #ffe8e0, #fff0e8);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     text-decoration: none;
     transition: all 0.3s ease;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logo:hover {
     transform: scale(1.05);
-    background: linear-gradient(135deg, #ffffff, #ffe8e0);
+    background: linear-gradient(135deg, #ffffff, #ffe8e0, #ffd9cc);
     -webkit-background-clip: text;
     background-clip: text;
+    text-shadow: 0 0 8px rgba(255, 245, 240, 0.8);
 }
 
 nav {
@@ -121,6 +124,7 @@ nav a {
     transition: all 0.3s ease;
     position: relative;
     white-space: nowrap;
+    font-family: 'Playfair Display', 'Georgia', serif;
 }
 
 nav a::after {
@@ -141,6 +145,11 @@ nav a:hover::after {
 nav a:hover {
     color: #ffffff;
     transform: translateY(-2px);
+}
+
+.phone-number {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-weight: 500;
 }
 
 /* Кнопки с эффектами */
@@ -195,7 +204,7 @@ nav a:hover {
     background: linear-gradient(135deg, #c82333, #d63e4e);
 }
 
-/* Главный баннер */
+/* Герой-секция с анимацией */
 .hero {
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                 url('/beauty-salon/assets/images/hero-bg.jpg');
@@ -207,7 +216,8 @@ nav a:hover {
     text-align: center;
     margin-bottom: 0px;
     color: white;
-    animation: none;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero h1 {
@@ -220,6 +230,47 @@ nav a:hover {
 .hero p {
     font-size: 1.3rem;
     margin-bottom: 30px;
+}
+
+/* Анимация для герой-блока - только для текста */
+.hero-animated h1,
+.hero-animated p,
+.hero-animated .btn {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+.hero-animated h1 {
+    animation-delay: 0.1s;
+}
+
+.hero-animated p {
+    animation-delay: 0.3s;
+}
+
+.hero-animated .btn {
+    animation-delay: 0.5s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Дополнительная пульсация для кнопки при наведении */
+.hero-animated .btn {
+    transition: all 0.3s ease;
+}
+
+.hero-animated .btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(183, 110, 121, 0.5);
 }
 
 /* Блок "О нас" с узорной рамкой */
@@ -717,6 +768,153 @@ footer {
     margin-top: 60px;
 }
 
+/* Стили для нового подвала */
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    position: relative;
+}
+
+/* Левая часть подвала - замочек + копирайт */
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.footer-left p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-family: 'Playfair Display', 'Georgia', serif;
+}
+
+/* Замочек слева от копирайта */
+.admin-lock-left {
+    color: #fff5f0;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 32px;
+    height: 32px;
+}
+
+.admin-lock-left:hover {
+    opacity: 1;
+    transform: scale(1.05);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Соцсети по центру */
+.footer-social {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.social-link {
+    color: #fff5f0;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.social-link:hover {
+    transform: translateY(-3px);
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+/* Правая часть подвала - кнопка наверх */
+.footer-right {
+    flex-shrink: 0;
+}
+
+/* Кнопка "Наверх" увеличенная с темно-розовым свечением */
+.scroll-to-top-footer {
+    background: linear-gradient(135deg, #b76e79, #d89aa4);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scroll-to-top-footer:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: linear-gradient(135deg, #9e5a64, #c46a7a);
+    box-shadow: 0 0 15px rgba(183, 110, 121, 0.8), 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ ========== */
+
+/* Для мобильных устройств (до 768px) */
+@media (max-width: 768px) {
+    /* Существующие медиа-запросы остаются... */
+    
+    /* Адаптивность подвала для мобильных */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        position: relative;
+        gap: 15px;
+    }
+    
+    .footer-left {
+        justify-content: center;
+        order: 1;
+    }
+    
+    .footer-social {
+        position: static;
+        transform: none;
+        order: 2;
+        margin: 5px 0;
+    }
+    
+    .footer-right {
+        order: 3;
+    }
+    
+    .scroll-to-top-footer {
+        width: 45px;
+        height: 45px;
+        font-size: 24px;
+    }
+    
+    .admin-lock-left {
+        width: 30px;
+        height: 30px;
+        padding: 5px;
+    }
+}
+
 /* ========== АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ ========== */
 
 /* Для планшетов и маленьких экранов (до 992px) */
@@ -842,6 +1040,36 @@ footer {
     .btn {
         padding: 10px 20px;
         font-size: 0.9rem;
+    }
+    
+    /* Адаптивность подвала для мобильных */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        position: relative;
+    }
+    
+    .footer-social {
+        position: static;
+        transform: none;
+        margin: 15px 0;
+    }
+    
+    .footer-buttons {
+        margin-left: 0;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    
+    .scroll-to-top-footer {
+        width: 45px;
+        height: 45px;
+        font-size: 24px;
+    }
+    
+    .admin-lock {
+        width: 38px;
+        height: 38px;
     }
 }
 

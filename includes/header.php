@@ -26,7 +26,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <body>
     <header>
         <div class="container">
-            <a href="/beauty-salon/index.php" class="logo">BeautySalon</a>
+            <a href="/beauty-salon/index.php" class="logo">Эстетика</a>
             <div style="display: flex; align-items: center; gap: 30px;">
                 <nav>
                     <a href="/beauty-salon/index.php" class="<?= $current_page == 'index.php' ? 'active' : '' ?>">Главная</a>
@@ -35,8 +35,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true): ?>
                         <a href="/beauty-salon/admin/dashboard.php">Админка</a>
                         <a href="/beauty-salon/admin/logout.php">Выйти</a>
-                    <?php else: ?>
-                        <a href="/beauty-salon/login.php">Вход для админа</a>
                     <?php endif; ?>
                 </nav>
                 <div class="phone-number" style="color: #fff5f0; font-weight: 500;">

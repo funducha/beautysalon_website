@@ -4,7 +4,15 @@ require_once '../includes/header.php';
 
 $appointments = [];
 if (file_exists('../data/appointments.json')) {
-    $appointments = json_decode(file_get_contents('../data/appointments.json'), true);
+    $appointmentsData = json_decode(file_get_contents('../data/appointments.json'), true);
+    
+    // Проверка: если данные не массив или null, устанавливаем пустой массив
+    if (!is_array($appointmentsData)) {
+        $appointmentsData = [];
+    }
+    
+    $appointments = $appointmentsData;
+    
     // Удаляем возможные дубликаты по id
     $uniqueAppointments = [];
     $seenIds = [];
@@ -25,7 +33,14 @@ if (file_exists('../data/appointments.json')) {
 // Загрузим услуги для отображения названия
 $services = [];
 if (file_exists('../data/services.json')) {
-    $services = json_decode(file_get_contents('../data/services.json'), true);
+    $servicesData = json_decode(file_get_contents('../data/services.json'), true);
+    
+    // Проверка: если данные не массив или null, устанавливаем пустой массив
+    if (!is_array($servicesData)) {
+        $servicesData = [];
+    }
+    
+    $services = $servicesData;
     $servicesMap = [];
     foreach ($services as $s) {
         $servicesMap[$s['id']] = $s['name'];
@@ -38,6 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_appointment'])
     $file = '../data/appointments.json';
     if (file_exists($file)) {
         $appointmentsData = json_decode(file_get_contents($file), true);
+        
+        // Проверка: если данные не массив или null, устанавливаем пустой массив
+        if (!is_array($appointmentsData)) {
+            $appointmentsData = [];
+        }
+        
         $appointmentsData = array_filter($appointmentsData, function($app) use ($id) {
             return $app['id'] != $id;
         });
@@ -57,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_appointment'])
         <a href="/beauty-salon/admin/logout.php" class="btn" style="background-color: #6c757d;">🚪 Выйти</a>
     </nav>
 
-    <h2>Все онлайн записи клиентов</h2>
+    <h2>Все онлайн-записи клиентов</h2>
     <?php if (empty($appointments)): ?>
         <p>Пока нет ни одной записи.</p>
     <?php else: ?>
@@ -68,6 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_appointment'])
                         <th>ID</th>
                         <th>Имя</th>
                         <th>Телефон</th>
+                        <th>Email</th>
                         <th>Услуга</th>
                         <th>Дата</th>
                         <th>Время</th>
@@ -80,6 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_appointment'])
                         <td><?= $app['id'] ?></td>
                         <td><?= htmlspecialchars($app['client_name']) ?></td>
                         <td><?= htmlspecialchars($app['client_phone']) ?></td>
+                        <td><?= (!empty($app['client_email'])) ? htmlspecialchars($app['client_email']) : '-' ?></td>
                         <td><?= isset($servicesMap[$app['service_id']]) ? htmlspecialchars($servicesMap[$app['service_id']]) : 'Неизвестно' ?></td>
                         <td><?= htmlspecialchars($app['date']) ?></td>
                         <td><?= htmlspecialchars($app['time']) ?></td>

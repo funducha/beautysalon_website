@@ -11,6 +11,7 @@ if (empty($input['name']) || empty($input['phone']) || empty($input['amount'])) 
 
 $name = trim(htmlspecialchars($input['name']));
 $phone = trim(htmlspecialchars($input['phone']));
+$email = isset($input['email']) ? trim(htmlspecialchars($input['email'])) : '';
 $amount = (int)$input['amount'];
 
 $file = '../data/gift_certificates.json';
@@ -24,6 +25,7 @@ $newCertificate = [
     'id' => time() . rand(100, 999),
     'client_name' => $name,
     'client_phone' => $phone,
+    'client_email' => $email,
     'amount' => $amount,
     'status' => 'activated',
     'activated_at' => date('Y-m-d H:i:s')

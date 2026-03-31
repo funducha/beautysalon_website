@@ -20,6 +20,10 @@ if (file_exists('data/services.json')) {
                 <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="8 999 123 45 67">
             </div>
             <div class="form-group">
+                <label for="email">Электронная почта</label>
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="example@mail.ru">
+            </div>
+            <div class="form-group">
                 <label for="service">Выберите услугу *</label>
                 <select id="service" name="service_id" required>
                     <option value="">-- Выберите услугу --</option>
@@ -48,7 +52,7 @@ if (file_exists('data/services.json')) {
             
             <button type="submit" class="btn" style="width: 100%;">Записаться</button>
         </form>
-        <div id="bookingMessage"></div>
+        <!-- Блок для сообщений удален - теперь используются только модальные окна -->
     </div>
 </div>
 
@@ -69,9 +73,11 @@ if (file_exists('data/services.json')) {
     
     // Применяем форматирование к полю телефона
     const phoneInput = document.getElementById('phone');
-    phoneInput.addEventListener('input', function() {
-        formatPhoneNumber(this);
-    });
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function() {
+            formatPhoneNumber(this);
+        });
+    }
     
     // Получаем элементы формы
     const serviceSelect = document.getElementById('service');
@@ -79,7 +85,6 @@ if (file_exists('data/services.json')) {
     const timeSelect = document.getElementById('time');
     const bookingForm = document.getElementById('bookingForm');
     const consentCheckbox = document.getElementById('consent');
-    const messageDiv = document.getElementById('bookingMessage');
 
     // Функция для загрузки доступного времени
     function updateTimes() {
@@ -126,101 +131,97 @@ if (file_exists('data/services.json')) {
     }
 
     // Добавляем обработчики событий
-    serviceSelect.addEventListener('change', updateTimes);
-    dateInput.addEventListener('change', updateTimes);
+    if (serviceSelect) serviceSelect.addEventListener('change', updateTimes);
+    if (dateInput) dateInput.addEventListener('change', updateTimes);
     
     // Устанавливаем минимальную дату (сегодня)
     const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
+    if (dateInput) dateInput.min = today;
     
     // Обработка отправки формы
-    bookingForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Проверка согласия
-        if (!consentCheckbox || !consentCheckbox.checked) {
-            showModal('Внимание', 'Пожалуйста, дайте согласие на обработку персональных данных');
-            return;
-        }
-        
-        // Собираем данные
-        const data = {
-            name: document.getElementById('name').value.trim(),
-            phone: document.getElementById('phone').value.trim().replace(/\s/g, ''),
-            service_id: serviceSelect.value,
-            date: dateInput.value,
-            time: timeSelect.value,
-            consent: true
-        };
-        
-        // Валидация
-        if (!data.name) {
-            showModal('Внимание', 'Пожалуйста, введите ваше полное имя');
-            return;
-        }
-        if (!data.phone) {
-            showModal('Внимание', 'Пожалуйста, введите номер телефона');
-            return;
-        }
-        if (!data.service_id) {
-            showModal('Внимание', 'Пожалуйста, выберите услугу');
-            return;
-        }
-        if (!data.date) {
-            showModal('Внимание', 'Пожалуйста, выберите дату');
-            return;
-        }
-        if (!data.time || data.time === 'Выберите время') {
-            showModal('Внимание', 'Пожалуйста, выберите время');
-            return;
-        }
-        
-        // Показываем сообщение о загрузке
-        messageDiv.innerHTML = '<div class="message">Отправка...</div>';
-        
-        // Логируем отправку формы
-        fetch('/beauty-salon/api/log_form_submit.php', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({form: 'booking', data: {service_id: data.service_id, date: data.date, time: data.time}})
-        }).catch(err => console.log('Log error:', err));
-        
-        // Отправляем запрос на запись
-        fetch('/beauty-salon/api/book_appointment.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('HTTP error ' + response.status);
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Проверка согласия
+            if (!consentCheckbox || !consentCheckbox.checked) {
+                showModal('Внимание', 'Пожалуйста, дайте согласие на обработку персональных данных');
+                return;
             }
-            return response.json();
-        })
-        .then(result => {
-            console.log('Response:', result);
-            if (result.success) {
-                showSuccessModal('✅ Запись успешна!', 'Вы успешно записались на ' + data.date + ' в ' + data.time + '. Мы ждем вас в салоне!');
-                // Сбрасываем форму
-                bookingForm.reset();
-                // Сбрасываем select времени
-                timeSelect.innerHTML = '<option value="">Сначала выберите дату и услугу</option>';
-                messageDiv.innerHTML = '';
-                // Обновляем доступные слоты
-                updateTimes();
-            } else {
-                showModal('Ошибка', result.message || 'Ошибка записи');
-                messageDiv.innerHTML = '';
+            
+            // Собираем данные
+            const data = {
+                name: document.getElementById('name').value.trim(),
+                phone: document.getElementById('phone').value.trim().replace(/\s/g, ''),
+                email: document.getElementById('email').value.trim(),
+                service_id: serviceSelect.value,
+                date: dateInput.value,
+                time: timeSelect.value,
+                consent: true
+            };
+            
+            // Валидация
+            if (!data.name) {
+                showModal('Внимание', 'Пожалуйста, введите ваше полное имя');
+                return;
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showModal('Ошибка', 'Произошла ошибка. Попробуйте позже.');
-            messageDiv.innerHTML = '';
+            if (!data.phone) {
+                showModal('Внимание', 'Пожалуйста, введите номер телефона');
+                return;
+            }
+            if (!data.service_id) {
+                showModal('Внимание', 'Пожалуйста, выберите услугу');
+                return;
+            }
+            if (!data.date) {
+                showModal('Внимание', 'Пожалуйста, выберите дату');
+                return;
+            }
+            if (!data.time || data.time === 'Выберите время' || data.time === 'Загрузка...' || data.time === 'Нет свободного времени') {
+                showModal('Внимание', 'Пожалуйста, выберите время');
+                return;
+            }
+            
+            // Логируем отправку формы
+            fetch('/beauty-salon/api/log_form_submit.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({form: 'booking', data: {service_id: data.service_id, date: data.date, time: data.time}})
+            }).catch(err => console.log('Log error:', err));
+            
+            // Отправляем запрос на запись
+            fetch('/beauty-salon/api/book_appointment.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('HTTP error ' + response.status);
+                }
+                return response.json();
+            })
+            .then(result => {
+                if (result.success) {
+                    showSuccessModal('✅ Запись успешна!', 'Вы успешно записались на ' + data.date + ' в ' + data.time + '. Мы ждем вас в салоне!');
+                    // Сбрасываем форму
+                    bookingForm.reset();
+                    // Сбрасываем select времени
+                    timeSelect.innerHTML = '<option value="">Сначала выберите дату и услугу</option>';
+                    // Обновляем доступные слоты
+                    updateTimes();
+                } else {
+                    showModal('Ошибка', result.message || 'Ошибка записи');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showModal('Ошибка', 'Произошла ошибка. Попробуйте позже.');
+            });
         });
-    });
+    }
 
     // Функция для показа модального окна с ошибкой/предупреждением
     function showModal(title, message) {

@@ -11,6 +11,7 @@ if (empty($input['name']) || empty($input['phone']) || empty($input['service_id'
 
 $name = trim($input['name']);
 $phone = trim($input['phone']);
+$email = isset($input['email']) ? trim($input['email']) : '';
 $service_id = (int)$input['service_id'];
 $date = trim($input['date']);
 $time = trim($input['time']);
@@ -37,6 +38,7 @@ $newAppointment = [
     'id' => time() . rand(100, 999),
     'client_name' => htmlspecialchars($name),
     'client_phone' => htmlspecialchars($phone),
+    'client_email' => htmlspecialchars($email),
     'service_id' => $service_id,
     'date' => $date,
     'time' => $time,
